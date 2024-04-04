@@ -8,7 +8,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(upload_to="product_images/")
+    image = models.ImageField(upload_to="product_images/", blank=True)
     user = models.ForeignKey(OnlineMarketUser, on_delete=models.CASCADE)
 
     def __str__(self):

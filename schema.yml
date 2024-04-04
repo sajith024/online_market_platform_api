@@ -1,0 +1,241 @@
+openapi: 3.0.3
+info:
+  title: Online Market Platform
+  version: 1.0.0
+  description: Online market for shopping
+paths:
+  /api/role/{id}:
+    get:
+      operationId: role_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    put:
+      operationId: role_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    patch:
+      operationId: role_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRole'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+    delete:
+      operationId: role_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - role
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/roles/:
+    get:
+      operationId: roles_list
+      tags:
+      - roles
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+          description: ''
+    post:
+      operationId: roles_create
+      tags:
+      - roles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Role'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: ''
+  /api/signup/:
+    post:
+      operationId: signup_create
+      tags:
+      - signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegistrationUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegistrationUser'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationUser'
+          description: ''
+components:
+  schemas:
+    PatchedRole:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+    RegistrationUser:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+        role:
+          type: integer
+      required:
+      - password
+      - role
+      - username
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      required:
+      - id
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

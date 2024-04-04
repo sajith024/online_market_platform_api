@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
     "online_market_app",
     "online_market_product",
 ]
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "online_market_app.online_market_middleware.OnlineMarketLogMiddleWare",
 ]
 
 AUTH_USER_MODEL = "online_market_app.OnlineMarketUser"
@@ -81,15 +83,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "online_market.wsgi.application"
 
-# REST_FRAMEWORK = {
-#     "DEFAULT_AUTHENTICATION_CLASSES": [
-#         "rest_framework.authentication.TokenAuthentication",
-#     ],
-#     "DEFAULT_PERMISSION_CLASSES": [
-#         "rest_framework.permissions.IsAuthenticated",
-#     ],
-# }
+REST_FRAMEWORK = {
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework.authentication.TokenAuthentication",
+    # ],
+    # "DEFAULT_PERMISSION_CLASSES": [
+    #     "rest_framework.permissions.IsAuthenticated",
+    # ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Online Market Platform',
+    'DESCRIPTION': 'Online market for shopping',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 
 # Database
